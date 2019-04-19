@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 export default class Form extends Component {
 	state = {
@@ -7,11 +8,33 @@ export default class Form extends Component {
 		price: 0
 	}
 
+	componentDidMount() {
+		const {id} = this.props.match.params;
+		if (id) {
+			axios.get(`http://localhost:4000/api/inventory/${id}`)
+			.then(res => {
+				const {img, name, price} = res.data[0]
+				this.setState({
+					imgUrl: img,
+					name,
+					price
+				})
+			})
+			.catch(err => console.log('err', err))
+		}
+	}
+
 	inputHandler = e => {
 		const {name, value} = e.target;
 		this.setState({
 			[name]: value
 		})
+	}
+
+	addToInventory = () => {
+		axios.post(`http://localhost:4000/api/product`, this.state)
+		.then(() => this.reset())
+		.catch(err => console.log('err', err))
 	}
 
 	reset = () => {
@@ -42,7 +65,11 @@ export default class Form extends Component {
 
 				<div className="formButtons">
 					<button onClick={this.reset}>Cancel</button>
-					<button>Add to inventory</button>
+					{
+						this.props.match.params.id ? 
+						<button onClick={this.saveChanges} >Save Changes</button> :
+						<button onClick={this.addToInventory} >Add to inventory</button>
+					}
 				</div>
 			</div>
 		)
