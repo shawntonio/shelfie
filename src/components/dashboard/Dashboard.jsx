@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import './Dashboard.css'
+
 import Product from '../product/Product';
 
 export default class Dashboard extends Component {
@@ -14,11 +16,17 @@ export default class Dashboard extends Component {
 		}).catch(err => console.log('err', err))
 	}
 
+	deleteProduct = id => {
+		axios.delete(`http://localhost:4000/api/inventory/${id}`)
+		.then(() => this.componentDidMount())
+		.catch(err => console.log('err', err))
+	}
+
 	render() {
 		return(
-			<div>
+			<div className="dashboard">
 				{this.state.inventory.map(product => (
-					<Product key={product.id} id={product.id} product={product} />
+					<Product deleteProduct={this.deleteProduct} key={product.id} id={product.id} product={product} />
 				))}
 			</div>
 		)

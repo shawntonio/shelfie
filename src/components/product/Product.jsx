@@ -1,20 +1,25 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import './Product.css';
+
 const Product = props =>(
 	<div className="product" >
-		<section>
-			<img src={props.product.imgUrl} alt="product"/>
-		</section>
+		
+		<img src={props.product.img} alt="product"/>
+		
 
-		<section>
-			<p>{props.product.name}</p>
-			<p>{props.product.price}</p>
+		<section className="productInfo">
+			
+			<div>
+				<p>{props.product.name}</p>
+				<p>{`$${props.product.price}`}</p>
+			</div>
 
 			<div className="productButtons">
-				<button>Delete</button>
+				<button className="pbutton" onClick={() => props.deleteProduct(props.id)} >Delete</button>
 				<Link to={`/edit/${props.id}`}>
-					<button>Edit</button>
+					<button className="pbutton">Edit</button>
 				</Link>
 			</div>
 		</section>	

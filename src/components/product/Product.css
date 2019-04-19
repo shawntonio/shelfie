@@ -1,0 +1,24 @@
+.product {
+	background-color: #D34734;
+	margin: 10px;
+	width: 100%;
+	display: flex;
+	border-radius: 5px;
+}
+
+.product>img {
+	width: 175px;
+	height: 115px;
+	margin: 10px;
+}
+
+.productInfo {
+ padding: 10px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+}
+
+.pbutton {
+	background-color: #3AD886;
+}

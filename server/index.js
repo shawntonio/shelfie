@@ -19,4 +19,6 @@ massive(CONNECTION_STRING).then(dbInstance => {
 app.get(`/api/inventory`, Ctrl.read);
 app.get(`/api/inventory/:id`, Ctrl.readById);
 app.post(`/api/product`, Ctrl.create);
+app.delete(`/api/inventory/:id`, Ctrl.delete);
+app.put(`/api/inventory/:id`, Ctrl.update)
 

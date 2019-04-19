@@ -1,0 +1,37 @@
+.form {
+	background-color: #3AD886;
+	width: 40%;
+	height: 430px;
+	margin-top: 100px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.imgBox {
+	width: 80%;
+	margin-top: 15px;
+	border: thin solid black;
+}
+
+.inputs {
+	width: 90%;
+	padding: 10px;
+}
+
+.inputs>input{
+	width: 100%;
+}
+
+input {
+	border: none;
+	margin: 10px 0;
+	height: 16px;
+}
+
+.formButtons {
+	margin-bottom: 15px;
+}
+

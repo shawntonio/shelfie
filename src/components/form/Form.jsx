@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import './Form.css';
+
 export default class Form extends Component {
 	state = {
 		imgUrl: '',
@@ -24,6 +26,17 @@ export default class Form extends Component {
 		}
 	}
 
+	componentDidUpdate(prevProps) {
+		const {id} = this.props.match.params;
+		if (prevProps.match.params.id !== id) {
+			this.setState({
+				imgUrl: '',
+				name: '',
+				price: 0
+			})
+		}
+	}
+
 	inputHandler = e => {
 		const {name, value} = e.target;
 		this.setState({
@@ -33,7 +46,18 @@ export default class Form extends Component {
 
 	addToInventory = () => {
 		axios.post(`http://localhost:4000/api/product`, this.state)
-		.then(() => this.reset())
+		.then(() => {
+			this.reset();
+			this.props.history.push(`/`);
+		})
+		.catch(err => console.log('err', err))
+	}
+
+	saveChanges = id => {
+		axios.put(`http://localhost:4000/api/inventory/${id}`, this.state)
+		.then(() => {
+			this.props.history.push(`/`);
+		})
 		.catch(err => console.log('err', err))
 	}
 
@@ -43,31 +67,34 @@ export default class Form extends Component {
 			name: '',
 			price: 0
 		})
+		this.props.history.push(`/`);
 	}
 
 	render() {
 		const {imgUrl, name, price} = this.state
+		const {id} = this.props.match.params
+
 		return(
-			<div>
-				<div className="imgBox">
-					{imgUrl ? <img src={imgUrl} alt="product"/> :
-					<img src="http://denrakaev.com/wp-content/uploads/2015/03/no-image-800x511.png" alt="none"/>}
-				</div>
+			<div className="form">
+				
+				{imgUrl ? <img className="imgBox" src={imgUrl} alt="product"/> :
+				<img className="imgBox" src="http://denrakaev.com/wp-content/uploads/2015/03/no-image-800x511.png" alt="none"/>}
+			
 
 				<div className="inputs">
-					<h3>Image URL:</h3>
+					<p>Image URL:</p>
 					<input value={imgUrl} name="imgUrl" onChange={this.inputHandler} type="text"/>
-					<h3> Product Name:</h3>
+					<p> Product Name:</p>
 					<input value={name} name="name" onChange={this.inputHandler} type="text"/>
-					<h3>Price:</h3>
+					<p>Price:</p>
 					<input value={price} name="price" onChange={this.inputHandler} this type="number"/>
 				</div>
 
 				<div className="formButtons">
 					<button onClick={this.reset}>Cancel</button>
 					{
-						this.props.match.params.id ? 
-						<button onClick={this.saveChanges} >Save Changes</button> :
+						id ? 
+						<button onClick={() => this.saveChanges(id)} >Save Changes</button> :
 						<button onClick={this.addToInventory} >Add to inventory</button>
 					}
 				</div>
